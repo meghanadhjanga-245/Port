@@ -414,5 +414,44 @@
 
   <!-- JS -->
   <script src="script.js"></script>
+
+  <!-- Firebase Tracking Configuration -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBo5UvLZ7sLXUhE4bRB2Sd7hYOjhQl9Mzg",
+      authDomain: "port-90540.firebaseapp.com",
+      projectId: "port-90540",
+      storageBucket: "port-90540.firebasestorage.app",
+      messagingSenderId: "740520085165",
+      appId: "1:740520085165:web:a43626b500b26ce4342824",
+      measurementId: "G-LELYGC1X5S"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const db = getFirestore(app);
+
+    // Custom Tracking: Log a visit to Firestore automatically when page loads
+    async function logVisit() {
+      try {
+        await addDoc(collection(db, "visitors"), {
+          timestamp: serverTimestamp(),
+          userAgent: navigator.userAgent, // Tells you the browser/OS type
+          language: navigator.language    // Tells you the browser language
+        });
+        console.log("Visit tracked successfully!");
+      } catch (e) {
+        console.error("Error logging visit: ", e);
+      }
+    }
+
+    logVisit();
+  </script>
 </body>
 </html>
