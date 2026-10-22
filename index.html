@@ -796,13 +796,14 @@
           </a>
         </div>
 
-        <!-- Inline Interactive Contact Form -->
-        <form class="contact-form" id="contact-form" action="https://formsubmit.co/meghanadhjanga02@gmail.com" method="POST">
-          <!-- FormSubmit Configuration for Direct Email Delivery to meghanadhjanga02@gmail.com -->
-          <input type="hidden" name="_captcha" value="false">
-          <input type="hidden" name="_template" value="table">
-          <input type="hidden" name="_subject" value="New Contact Inquiry from Meghanadh Portfolio">
-          <input type="hidden" name="_next" id="form-redirect-next" value="">
+        <!-- Inline Interactive Contact Form (Web3Forms Direct Email Delivery) -->
+        <form class="contact-form" id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+          <!-- Web3Forms API Key for Instant Direct Delivery to meghanadhjanga02@gmail.com -->
+          <input type="hidden" name="access_key" value="19942b6e-8e0c-4b91-876f-63c67bd18d53">
+          <input type="hidden" name="subject" value="New Contact Inquiry from Meghanadh Portfolio">
+          <input type="hidden" name="from_name" value="Portfolio Visitor">
+          <input type="hidden" name="redirect" id="form-redirect-next" value="">
+          <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
 
           <div class="form-row">
             <div class="form-group">

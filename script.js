@@ -776,12 +776,12 @@ function initProjectModal() {
   });
 }
 
-// ===== Inline Interactive Contact Form (Direct Email Delivery & Firebase Sync) =====
+// ===== Inline Interactive Contact Form (Web3Forms Direct Email Delivery & Firebase Sync) =====
 function initContactForm() {
   const form = document.getElementById('contact-form');
   if (!form) return;
 
-  // Set redirect URL for native FormSubmit fallback
+  // Set redirect URL for native Web3Forms fallback
   const nextInput = document.getElementById('form-redirect-next');
   if (nextInput) {
     try {
@@ -789,7 +789,7 @@ function initContactForm() {
     } catch (_) {}
   }
 
-  // Check if page reloaded after a successful FormSubmit redirect
+  // Check if page reloaded after a successful submission redirect
   try {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('submitted') === 'true') {
@@ -831,10 +831,10 @@ function initContactForm() {
       }
     } catch (_) {}
 
-    // 2. Dispatch email directly to meghanadhjanga02@gmail.com via FormSubmit
+    // 2. Dispatch email directly to meghanadhjanga02@gmail.com via Web3Forms API
     try {
       const formData = new FormData(form);
-      const response = await fetch('https://formsubmit.co/ajax/meghanadhjanga02@gmail.com', {
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
           'Accept': 'application/json'
@@ -842,15 +842,17 @@ function initContactForm() {
         body: formData
       });
 
-      if (response.ok) {
+      const data = await response.json().catch(() => ({}));
+
+      if (response.ok && data.success !== false) {
         showToast("Message sent! Dispatched directly to Meghanadh's Gmail inbox. ✓");
         form.reset();
       } else {
-        // If AJAX is blocked, submit form natively
+        // Fallback to native form submission
         form.submit();
       }
     } catch (err) {
-      console.warn('FormSubmit AJAX blocked, falling back to native submission:', err);
+      console.warn('Web3Forms AJAX blocked, falling back to native submission:', err);
       try {
         form.submit();
       } catch (submitErr) {
