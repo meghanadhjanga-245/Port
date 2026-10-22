@@ -1,10 +1,15 @@
 // ===== DOM Ready =====
 document.addEventListener('DOMContentLoaded', () => {
+  initThemeToggle();
   initNavbar();
   initMobileMenu();
   initScrollAnimations();
   initCarousel();
+  initProjectFilters();
   initSmoothScroll();
+  initScrollProgress();
+  initBackToTop();
+  initCopyEmail();
 });
 
 // ===== Navbar Scroll Behavior =====
@@ -250,4 +255,121 @@ function initSmoothScroll() {
       }
     });
   });
+}
+
+// ===== Theme Toggle (Dark / Light) =====
+function initThemeToggle() {
+  const toggleBtn = document.getElementById('theme-toggle');
+  const storedTheme = localStorage.getItem('meghanadh-theme');
+  const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+  // Set initial theme
+  const initialTheme = storedTheme || (systemPrefersDark ? 'dark' : 'light');
+  document.documentElement.setAttribute('data-theme', initialTheme);
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', nextTheme);
+      localStorage.setItem('meghanadh-theme', nextTheme);
+      showToast(`Switched to ${nextTheme} mode`);
+    });
+  }
+
+  // Listen for system theme changes if user hasn't set explicit preference
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+    if (!localStorage.getItem('meghanadh-theme')) {
+      const newTheme = e.matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', newTheme);
+    }
+  });
+}
+
+// ===== Scroll Progress Bar =====
+function initScrollProgress() {
+  const progressBar = document.getElementById('scroll-progress-bar');
+  if (!progressBar) return;
+
+  window.addEventListener('scroll', () => {
+    const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+    if (totalHeight <= 0) return;
+    const progress = (window.scrollY / totalHeight) * 100;
+    progressBar.style.width = `${progress}%`;
+  }, { passive: true });
+}
+
+// ===== Back to Top Button =====
+function initBackToTop() {
+  const btn = document.getElementById('back-to-top');
+  if (!btn) return;
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 400) {
+      btn.classList.add('visible');
+    } else {
+      btn.classList.remove('visible');
+    }
+  }, { passive: true });
+
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+// ===== Copy Email to Clipboard =====
+function initCopyEmail() {
+  const copyBtn = document.getElementById('copy-email-btn');
+  const email = 'meghanadhjanga02@gmail.com';
+
+  if (!copyBtn) return;
+
+  copyBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    try {
+      await navigator.clipboard.writeText(email);
+      copyBtn.classList.add('copied');
+      showToast('Email address copied to clipboard! ✓');
+      setTimeout(() => {
+        copyBtn.classList.remove('copied');
+      }, 2500);
+    } catch (err) {
+      // Fallback
+      const textarea = document.createElement('textarea');
+      textarea.value = email;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      copyBtn.classList.add('copied');
+      showToast('Email address copied to clipboard! ✓');
+      setTimeout(() => {
+        copyBtn.classList.remove('copied');
+      }, 2500);
+    }
+  });
+}
+
+// ===== Toast Notification Helper =====
+function showToast(message) {
+  const container = document.getElementById('toast-container');
+  if (!container) return;
+
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+    <span>${message}</span>
+  `;
+
+  container.appendChild(toast);
+
+  setTimeout(() => {
+    toast.classList.add('toast-fadeout');
+    setTimeout(() => {
+      if (toast.parentElement) toast.parentElement.removeChild(toast);
+    }, 350);
+  }, 2600);
 }
