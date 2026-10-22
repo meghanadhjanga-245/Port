@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initFloatingProjects();
   initProjectFilters();
   initProjectModal();
+  initResumeModal();
   initContactForm();
   initSmoothScroll();
   initScrollProgress();
@@ -867,6 +868,52 @@ function initContactForm() {
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalText;
       }
+    }
+  });
+}
+
+// ===== Interactive In-Page Resume Modal Viewer =====
+function initResumeModal() {
+  const modal = document.getElementById('resume-modal');
+  const closeBtn = document.getElementById('resume-modal-close');
+  const heroBtn = document.getElementById('hero-view-resume-btn');
+  const navBtn = document.getElementById('nav-resume-btn');
+  const mobileBtn = document.getElementById('mobile-resume-btn');
+
+  if (!modal) return;
+
+  function openResume() {
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeResume() {
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  if (heroBtn) heroBtn.addEventListener('click', openResume);
+  if (navBtn) navBtn.addEventListener('click', openResume);
+  if (mobileBtn) {
+    mobileBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const closeMenuBtn = document.querySelector('.mobile-menu-close');
+      if (closeMenuBtn) closeMenuBtn.click();
+      openResume();
+    });
+  }
+
+  if (closeBtn) closeBtn.addEventListener('click', closeResume);
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeResume();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+      closeResume();
     }
   });
 }

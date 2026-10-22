@@ -3009,3 +3009,281 @@ ul, ol {
 .projects-marquee-track.is-dragging * {
   pointer-events: none;
 }
+
+/* ===== Interactive In-Page Resume Viewer Modal & Hero Actions ===== */
+.btn-resume-view {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 13px 26px;
+  background: linear-gradient(135deg, var(--mint-500), #059669);
+  color: white !important;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-radius: 50px;
+  border: none;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  letter-spacing: 0.02em;
+}
+
+.btn-resume-view:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.45);
+  background: linear-gradient(135deg, var(--mint-600), #047857);
+}
+
+.btn-resume-download {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 22px;
+  background: white;
+  color: var(--gray-800);
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: 50px;
+  border: 1.5px solid var(--gray-200);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all var(--transition-base);
+}
+
+.btn-resume-download:hover {
+  background: var(--mint-50);
+  border-color: var(--mint-400);
+  color: var(--mint-600);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+[data-theme="dark"] .btn-resume-download {
+  background: #0f172a;
+  border-color: #334155;
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .btn-resume-download:hover {
+  background: #1e293b;
+  border-color: var(--mint-400);
+  color: var(--mint-400);
+}
+
+/* Navbar Resume Pill */
+.nav-resume-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 15px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--mint-600);
+  border: 1px solid rgba(16, 185, 129, 0.28);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  margin-right: 4px;
+}
+
+.nav-resume-pill:hover {
+  background: var(--mint-500);
+  color: white;
+  border-color: var(--mint-500);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+[data-theme="dark"] .nav-resume-pill {
+  background: rgba(16, 185, 129, 0.18);
+  color: var(--mint-400);
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+[data-theme="dark"] .nav-resume-pill:hover {
+  background: var(--mint-500);
+  color: white;
+}
+
+/* Resume In-Page Modal Viewer */
+.resume-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 10600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.resume-modal-backdrop.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.resume-modal-dialog {
+  background: white;
+  border-radius: 20px;
+  width: 96%;
+  max-width: 980px;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.45);
+  border: 1px solid var(--gray-200);
+  transform: translateY(24px) scale(0.96);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.resume-modal-backdrop.is-open .resume-modal-dialog {
+  transform: translateY(0) scale(1);
+}
+
+[data-theme="dark"] .resume-modal-dialog {
+  background: #0f172a;
+  border-color: #1e293b;
+  color: #f1f5f9;
+}
+
+.resume-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 22px;
+  border-bottom: 1px solid var(--gray-200);
+  background: var(--gray-50);
+  flex-shrink: 0;
+}
+
+[data-theme="dark"] .resume-modal-header {
+  background: #090e1a;
+  border-color: #1e293b;
+}
+
+.resume-modal-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.resume-modal-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gray-900);
+}
+
+[data-theme="dark"] .resume-modal-title {
+  color: #f8fafc;
+}
+
+.resume-modal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 6px;
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--mint-600);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+[data-theme="dark"] .resume-modal-badge {
+  color: var(--mint-400);
+  background: rgba(16, 185, 129, 0.2);
+}
+
+.resume-modal-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.resume-modal-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  background: white;
+  border: 1px solid var(--gray-200);
+  color: var(--gray-700);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.resume-modal-btn:hover {
+  background: var(--mint-50);
+  color: var(--mint-600);
+  border-color: var(--mint-400);
+}
+
+[data-theme="dark"] .resume-modal-btn {
+  background: #1e293b;
+  border-color: #334155;
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .resume-modal-btn:hover {
+  background: #334155;
+  color: var(--mint-400);
+  border-color: var(--mint-400);
+}
+
+.resume-modal-close {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: var(--gray-200);
+  color: var(--gray-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  margin-left: 4px;
+}
+
+.resume-modal-close:hover {
+  background: var(--mint-500);
+  color: white;
+  transform: rotate(90deg);
+}
+
+[data-theme="dark"] .resume-modal-close {
+  background: #1e293b;
+  color: #cbd5e1;
+}
+
+.resume-frame-container {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  background: #334155;
+  position: relative;
+  overflow: hidden;
+}
+
+.resume-frame-container iframe,
+.resume-frame-container object {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
