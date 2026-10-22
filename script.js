@@ -776,10 +776,27 @@ function initProjectModal() {
   });
 }
 
-// ===== Inline Interactive Contact Form =====
+// ===== Inline Interactive Contact Form (Direct Email Delivery & Firebase Sync) =====
 function initContactForm() {
   const form = document.getElementById('contact-form');
   if (!form) return;
+
+  // Set redirect URL for native FormSubmit fallback
+  const nextInput = document.getElementById('form-redirect-next');
+  if (nextInput) {
+    try {
+      nextInput.value = window.location.origin + window.location.pathname + '?submitted=true#contact';
+    } catch (_) {}
+  }
+
+  // Check if page reloaded after a successful FormSubmit redirect
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('submitted') === 'true') {
+      showToast("Thank you! Your message was delivered directly to Meghanadh's inbox. ✓");
+      window.history.replaceState({}, document.title, window.location.pathname + '#contact');
+    }
+  } catch (_) {}
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -792,7 +809,7 @@ function initContactForm() {
     const message = form.querySelector('[name="message"]')?.value.trim();
 
     if (!name || !email || !message) {
-      showToast('Please fill in all required fields.');
+      showToast('Please fill in all required fields.', 'error');
       return;
     }
 
@@ -803,34 +820,46 @@ function initContactForm() {
           <circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle>
           <path d="M12 2a10 10 0 0 1 10 10"></path>
         </svg>
-        <span>Sending Message...</span>
+        <span>Sending Message to Meghanadh...</span>
       `;
     }
 
+    // 1. Concurrently save to Firebase database as cloud archive
     try {
-      // Wait briefly for firebase module to initialize if still loading
-      if (typeof window.sendContactMessage !== 'function') {
-        for (let i = 0; i < 20; i++) {
-          if (typeof window.sendContactMessage === 'function') break;
-          await new Promise((r) => setTimeout(r, 100));
-        }
-      }
-
       if (typeof window.sendContactMessage === 'function') {
-        await window.sendContactMessage({ name, email, subject, message });
-      } else {
-        await new Promise((resolve) => setTimeout(resolve, 600));
+        window.sendContactMessage({ name, email, subject, message }).catch(() => {});
       }
+    } catch (_) {}
 
-      showToast('Thank you! Your message was delivered to Meghanadh. ✓');
-      form.reset();
+    // 2. Dispatch email directly to meghanadhjanga02@gmail.com via FormSubmit
+    try {
+      const formData = new FormData(form);
+      const response = await fetch('https://formsubmit.co/ajax/meghanadhjanga02@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json'
+        },
+        body: formData
+      });
+
+      if (response.ok) {
+        showToast("Message sent! Dispatched directly to Meghanadh's Gmail inbox. ✓");
+        form.reset();
+      } else {
+        // If AJAX is blocked, submit form natively
+        form.submit();
+      }
     } catch (err) {
-      console.error('Submission error:', err);
-      showToast('Opening email client to deliver your message...', 'warning');
-      setTimeout(() => {
-        const mailtoUrl = `mailto:meghanadhjanga02@gmail.com?subject=${encodeURIComponent(subject || 'Portfolio Inquiry')}&body=${encodeURIComponent(`Hi Meghanadh,\n\nName: ${name}\nEmail: ${email}\n\n${message}`)}`;
-        window.location.href = mailtoUrl;
-      }, 800);
+      console.warn('FormSubmit AJAX blocked, falling back to native submission:', err);
+      try {
+        form.submit();
+      } catch (submitErr) {
+        showToast('Opening email client to deliver your message...', 'warning');
+        setTimeout(() => {
+          const mailtoUrl = `mailto:meghanadhjanga02@gmail.com?subject=${encodeURIComponent(subject || 'Portfolio Inquiry')}&body=${encodeURIComponent(`Hi Meghanadh,\n\nName: ${name}\nEmail: ${email}\n\n${message}`)}`;
+          window.location.href = mailtoUrl;
+        }, 800);
+      }
     } finally {
       if (submitBtn) {
         submitBtn.disabled = false;
