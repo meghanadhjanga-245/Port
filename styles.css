@@ -3287,3 +3287,205 @@ ul, ol {
   height: 100%;
   border: none;
 }
+
+/* Hero CTA Subgroup (Desktop & Mobile) */
+.hero-cta-subgroup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Mobile Quick Action Banner inside Resume Modal */
+.resume-mobile-banner {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: var(--mint-50);
+  border-bottom: 1px solid var(--mint-200);
+  font-size: 0.8rem;
+  color: var(--mint-700);
+  flex-shrink: 0;
+}
+
+.resume-mobile-banner a {
+  color: var(--mint-600);
+  font-weight: 700;
+  text-decoration: underline;
+  padding: 2px 6px;
+}
+
+[data-theme="dark"] .resume-mobile-banner {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.25);
+  color: #6ee7b7;
+}
+
+[data-theme="dark"] .resume-mobile-banner a {
+  color: #a7f3d0;
+}
+
+/* ===== Comprehensive Mobile & Desktop Responsiveness ===== */
+
+@media (max-width: 768px) {
+  /* Prevent iOS Safari from auto-zooming inputs (requires min 16px font-size) */
+  .form-group input,
+  .form-group textarea {
+    font-size: 16px !important;
+  }
+
+  .resume-mobile-banner {
+    display: flex;
+  }
+
+  .resume-modal-dialog {
+    width: 100%;
+    height: 94vh;
+    margin: 8px 0;
+    border-radius: 16px;
+  }
+
+  .resume-modal-header {
+    padding: 12px 14px;
+  }
+
+  .resume-modal-badge {
+    display: none;
+  }
+
+  .hero-tags {
+    justify-content: center;
+  }
+
+  .skills-tab-btn {
+    font-size: 0.82rem;
+    padding: 8px 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  /* Mobile Hero Buttons Layout */
+  .hero-cta-buttons {
+    flex-direction: column;
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto;
+    gap: 10px;
+    align-items: stretch;
+  }
+
+  .btn-resume-view {
+    width: 100%;
+    padding: 13px 20px;
+    justify-content: center;
+  }
+
+  .hero-cta-subgroup {
+    width: 100%;
+    gap: 8px;
+  }
+
+  .btn-resume-download,
+  .btn-resume-drive {
+    flex: 1;
+    padding: 11px 10px;
+    font-size: 0.82rem;
+    gap: 6px;
+    white-space: nowrap;
+    justify-content: center;
+  }
+
+  /* Contact Form Mobile Padding */
+  .contact-form {
+    padding: 20px 16px;
+    border-radius: 16px;
+    margin-top: 24px;
+  }
+
+  /* Architecture Modal Mobile */
+  .project-modal-dialog {
+    max-height: 92vh;
+    border-radius: 16px;
+    width: 100%;
+  }
+
+  .modal-content {
+    padding: 20px 16px;
+  }
+
+  .modal-hero-img {
+    height: 180px;
+  }
+
+  .modal-title {
+    font-size: 1.2rem;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .modal-actions a {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 540px) {
+  /* Education Carousel Mobile Controls */
+  .carousel-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .carousel-btn-prev {
+    left: 4px;
+  }
+
+  .carousel-btn-next {
+    right: 4px;
+  }
+
+  .carousel-card-content {
+    padding: 16px 12px;
+  }
+
+  /* Resume Modal Header on Small Screens */
+  .resume-modal-title {
+    font-size: 0.9rem;
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .resume-modal-btn {
+    padding: 5px 9px;
+    font-size: 0.74rem;
+  }
+
+  .resume-modal-actions {
+    gap: 5px;
+  }
+
+  .resume-modal-close {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@media (max-width: 440px) {
+  .nav-resume-pill {
+    padding: 5px 10px;
+    font-size: 0.75rem;
+  }
+
+  .hero-title {
+    font-size: 1.85rem;
+  }
+
+  .projects-marquee-row .project-card {
+    width: 280px;
+  }
+}
