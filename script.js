@@ -372,16 +372,26 @@ function initCopyEmail() {
 }
 
 // ===== Toast Notification Helper =====
-function showToast(message) {
+function showToast(message, type = 'success') {
   const container = document.getElementById('toast-container');
   if (!container) return;
 
   const toast = document.createElement('div');
-  toast.className = 'toast';
+  const isError = type === 'error';
+  toast.className = `toast ${isError ? 'toast-error' : ''}`;
+
+  const icon = isError
+    ? `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>`
+    : `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>`;
+
   toast.innerHTML = `
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="20 6 9 17 4 12"></polyline>
-    </svg>
+    ${icon}
     <span>${message}</span>
   `;
 
@@ -392,7 +402,7 @@ function showToast(message) {
     setTimeout(() => {
       if (toast.parentElement) toast.parentElement.removeChild(toast);
     }, 350);
-  }, 2600);
+  }, 3200);
 }
 
 // ===== Floating Projects Showcase (Displays Same as Skills) =====
@@ -798,16 +808,29 @@ function initContactForm() {
     }
 
     try {
+      // Wait briefly for firebase module to initialize if still loading
+      if (typeof window.sendContactMessage !== 'function') {
+        for (let i = 0; i < 20; i++) {
+          if (typeof window.sendContactMessage === 'function') break;
+          await new Promise((r) => setTimeout(r, 100));
+        }
+      }
+
       if (typeof window.sendContactMessage === 'function') {
         await window.sendContactMessage({ name, email, subject, message });
       } else {
-        await new Promise((resolve) => setTimeout(resolve, 800));
+        await new Promise((resolve) => setTimeout(resolve, 600));
       }
+
       showToast('Thank you! Your message was delivered to Meghanadh. ✓');
       form.reset();
     } catch (err) {
       console.error('Submission error:', err);
-      showToast('Failed to send message. Please contact meghanadhjanga02@gmail.com directly.');
+      showToast('Opening email client to deliver your message...', 'warning');
+      setTimeout(() => {
+        const mailtoUrl = `mailto:meghanadhjanga02@gmail.com?subject=${encodeURIComponent(subject || 'Portfolio Inquiry')}&body=${encodeURIComponent(`Hi Meghanadh,\n\nName: ${name}\nEmail: ${email}\n\n${message}`)}`;
+        window.location.href = mailtoUrl;
+      }, 800);
     } finally {
       if (submitBtn) {
         submitBtn.disabled = false;

@@ -2275,6 +2275,14 @@ ul, ol {
   pointer-events: auto;
 }
 
+.toast.toast-error {
+  border-left-color: #ef4444;
+}
+
+.toast.toast-warning {
+  border-left-color: #f59e0b;
+}
+
 @keyframes slideToastIn {
   from { opacity: 0; transform: translateY(20px) scale(0.95); }
   to { opacity: 1; transform: translateY(0) scale(1); }
