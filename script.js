@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileMenu();
   initScrollAnimations();
   initCarousel();
+  initFloatingProjects();
   initProjectFilters();
   initSmoothScroll();
   initScrollProgress();
@@ -374,22 +375,102 @@ function showToast(message) {
   }, 2600);
 }
 
+// ===== Floating Projects Showcase (Displays Same as Skills) =====
+function initFloatingProjects() {
+  const grid = document.getElementById('projects-grid');
+  const marqueeContainer = document.getElementById('projects-marquee-container');
+  const marqueeTrack = document.getElementById('projects-marquee-track');
+  const marqueeRow = document.getElementById('projects-marquee-row');
+  const viewFloatingBtn = document.getElementById('view-floating-btn');
+  const viewGridBtn = document.getElementById('view-grid-btn');
+  const pauseBtn = document.getElementById('float-pause-btn');
+
+  if (!grid || !marqueeRow) return;
+
+  const originalCards = grid.querySelectorAll('.project-card');
+  if (!originalCards.length) return;
+
+  function populateMarquee(cardsToUse) {
+    marqueeRow.innerHTML = '';
+    // Duplicate twice for seamless -50% infinite float
+    for (let loop = 0; loop < 2; loop++) {
+      cardsToUse.forEach((card) => {
+        const clone = card.cloneNode(true);
+        clone.classList.remove('project-featured', 'is-hidden');
+        clone.classList.add('animate-in');
+        clone.style.display = '';
+        clone.style.opacity = '1';
+        clone.style.transform = 'none';
+        marqueeRow.appendChild(clone);
+      });
+    }
+    const cardCount = cardsToUse.length;
+    const duration = Math.max(26, cardCount * 8.5);
+    marqueeRow.style.animationDuration = `${duration}s`;
+  }
+
+  populateMarquee(Array.from(originalCards));
+
+  // Global updater when categories are filtered
+  window.updateFloatingProjects = (matchingCards) => {
+    if (matchingCards.length === 0) {
+      marqueeRow.innerHTML = '<p style="padding: 40px; color: var(--gray-500); text-align: center; width: 100%;">No matching projects in this category.</p>';
+      marqueeRow.style.animation = 'none';
+    } else {
+      marqueeRow.style.animation = '';
+      populateMarquee(matchingCards);
+    }
+  };
+
+  // View Switcher: Floating Stream vs Grid
+  if (viewFloatingBtn && viewGridBtn && marqueeContainer) {
+    viewFloatingBtn.addEventListener('click', () => {
+      viewFloatingBtn.classList.add('active');
+      viewGridBtn.classList.remove('active');
+      marqueeContainer.style.display = 'block';
+      grid.style.display = 'none';
+      if (pauseBtn) pauseBtn.style.display = 'inline-flex';
+    });
+
+    viewGridBtn.addEventListener('click', () => {
+      viewGridBtn.classList.add('active');
+      viewFloatingBtn.classList.remove('active');
+      marqueeContainer.style.display = 'none';
+      grid.style.display = 'grid';
+      if (pauseBtn) pauseBtn.style.display = 'none';
+    });
+  }
+
+  // Float Pause / Resume Button
+  if (pauseBtn && marqueeTrack) {
+    pauseBtn.addEventListener('click', () => {
+      const isPaused = marqueeTrack.classList.toggle('is-paused');
+      pauseBtn.classList.toggle('paused', isPaused);
+      const textSpan = pauseBtn.querySelector('.float-btn-text');
+      if (textSpan) {
+        textSpan.textContent = isPaused ? 'Resume Float' : 'Pause Float';
+      }
+    });
+  }
+}
+
 // ===== Project Filtering =====
 function initProjectFilters() {
   const filterBtns = document.querySelectorAll('.filter-btn');
-  const projectCards = document.querySelectorAll('.project-card');
+  const grid = document.getElementById('projects-grid');
+  if (!filterBtns.length || !grid) return;
 
-  if (!filterBtns.length || !projectCards.length) return;
+  const originalCards = Array.from(grid.querySelectorAll('.project-card'));
 
-  // Auto-sync count badges to actual card categories
+  // Sync count badges
   filterBtns.forEach((btn) => {
     const filter = btn.getAttribute('data-filter');
     const countBadge = btn.querySelector('.filter-count');
     if (countBadge) {
       if (filter === 'all') {
-        countBadge.textContent = projectCards.length;
+        countBadge.textContent = originalCards.length;
       } else {
-        const matches = Array.from(projectCards).filter((card) => {
+        const matches = originalCards.filter((card) => {
           const cats = (card.getAttribute('data-category') || '').trim().split(/\s+/);
           return cats.includes(filter);
         }).length;
@@ -408,17 +489,19 @@ function initProjectFilters() {
       filterBtns.forEach((b) => b.classList.remove('active'));
       btn.classList.add('active');
 
+      const matchingCards = [];
       let visibleCount = 0;
-      projectCards.forEach((card) => {
+
+      originalCards.forEach((card) => {
         const categories = (card.getAttribute('data-category') || '').trim().split(/\s+/);
         const isMatch = filter === 'all' || categories.includes(filter);
 
         if (isMatch) {
           card.classList.remove('is-hidden');
           card.style.display = '';
-          // Smooth fade in
           card.style.transitionDelay = `${visibleCount * 70}ms`;
           visibleCount++;
+          matchingCards.push(card);
           requestAnimationFrame(() => {
             card.classList.add('animate-in');
           });
@@ -428,6 +511,11 @@ function initProjectFilters() {
           card.style.transitionDelay = '0ms';
         }
       });
+
+      // Synchronize floating marquee stream
+      if (typeof window.updateFloatingProjects === 'function') {
+        window.updateFloatingProjects(matchingCards);
+      }
     });
   });
 }

@@ -171,6 +171,26 @@
         <p>Hands-on experience with process documentation, business process analysis, and automation solution development using MS Power Automate, MS Power BI, and Power Query. Familiar with Agile/Scrum methodologies, CI/CD pipelines, and collaboration tools.</p>
         <p>Strong communicator with a keen interest in the operational and technical side of the finance and asset management industry.</p>
         
+        <!-- Quantitative Engineering Highlights & Stats -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number">8.9 <span class="stat-unit">/ 10</span></div>
+            <div class="stat-label">B.Tech Academic CGPA</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">5+</div>
+            <div class="stat-label">Production & Systems Projects</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">90%</div>
+            <div class="stat-label">Process Latency Reduction</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">6+</div>
+            <div class="stat-label">Industry Certifications</div>
+          </div>
+        </div>
+
         <div class="about-divider"></div>
       </div>
     </div>
@@ -270,6 +290,8 @@
             <div class="skill-item"><div class="skill-icon"><i class="devicon-typescript-plain colored" style="font-size: 32px;"></i></div><span>TypeScript</span></div>
             <div class="skill-item"><div class="skill-icon"><i class="devicon-java-plain colored" style="font-size: 32px;"></i></div><span>Java</span></div>
             <div class="skill-item"><div class="skill-icon"><i class="devicon-react-original colored" style="font-size: 32px;"></i></div><span>React.js</span></div>
+            <div class="skill-item"><div class="skill-icon"><i class="devicon-threejs-original colored" style="font-size: 32px;"></i></div><span>Three.js</span></div>
+            <div class="skill-item"><div class="skill-icon"><i class="devicon-tailwindcss-plain colored" style="font-size: 32px;"></i></div><span>Tailwind</span></div>
             <div class="skill-item"><div class="skill-icon"><i class="devicon-nodejs-plain colored" style="font-size: 32px;"></i></div><span>Node.js</span></div>
             <div class="skill-item"><div class="skill-icon"><i class="devicon-mysql-plain colored" style="font-size: 32px;"></i></div><span>SQL</span></div>
             <div class="skill-item"><div class="skill-icon"><i class="devicon-mongodb-plain colored" style="font-size: 32px;"></i></div><span>MongoDB</span></div>
@@ -282,6 +304,8 @@
             <div class="skill-item"><div class="skill-icon"><i class="devicon-typescript-plain colored" style="font-size: 32px;"></i></div><span>TypeScript</span></div>
             <div class="skill-item"><div class="skill-icon"><i class="devicon-java-plain colored" style="font-size: 32px;"></i></div><span>Java</span></div>
             <div class="skill-item"><div class="skill-icon"><i class="devicon-react-original colored" style="font-size: 32px;"></i></div><span>React.js</span></div>
+            <div class="skill-item"><div class="skill-icon"><i class="devicon-threejs-original colored" style="font-size: 32px;"></i></div><span>Three.js</span></div>
+            <div class="skill-item"><div class="skill-icon"><i class="devicon-tailwindcss-plain colored" style="font-size: 32px;"></i></div><span>Tailwind</span></div>
             <div class="skill-item"><div class="skill-icon"><i class="devicon-nodejs-plain colored" style="font-size: 32px;"></i></div><span>Node.js</span></div>
             <div class="skill-item"><div class="skill-icon"><i class="devicon-mysql-plain colored" style="font-size: 32px;"></i></div><span>SQL</span></div>
             <div class="skill-item"><div class="skill-icon"><i class="devicon-mongodb-plain colored" style="font-size: 32px;"></i></div><span>MongoDB</span></div>
@@ -303,18 +327,65 @@
         </h2>
       </div>
       <p class="section-subtitle">
-        Engineered systems, low-latency financial terminals, 3D cartographic digital twins, and full-stack solutions.
+        Interactive showcase of engineered systems, low-latency financial terminals, and 3D spatial computing. Hover any project to freeze and explore.
       </p>
 
-      <!-- Category Filter Bar -->
-      <div class="project-filter-bar">
-        <button class="filter-btn active" data-filter="all">All Projects <span class="filter-count">5</span></button>
-        <button class="filter-btn" data-filter="systems">FinTech & Systems <span class="filter-count">2</span></button>
-        <button class="filter-btn" data-filter="spatial">3D & Spatial GIS <span class="filter-count">1</span></button>
-        <button class="filter-btn" data-filter="web">Full Stack & Cloud <span class="filter-count">3</span></button>
+      <!-- Projects Controls Toolbar -->
+      <div class="projects-toolbar">
+        <!-- View Toggle (Floating Stream vs Grid) -->
+        <div class="view-toggle-group">
+          <button class="view-toggle-btn active" data-view="floating" id="view-floating-btn" title="Floating Stream View">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+            <span>Floating Stream</span>
+          </button>
+          <button class="view-toggle-btn" data-view="grid" id="view-grid-btn" title="Grid View">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="7" height="7" x="3" y="3" rx="1"></rect>
+              <rect width="7" height="7" x="14" y="3" rx="1"></rect>
+              <rect width="7" height="7" x="14" y="14" rx="1"></rect>
+              <rect width="7" height="7" x="3" y="14" rx="1"></rect>
+            </svg>
+            <span>Grid View</span>
+          </button>
+        </div>
+
+        <!-- Pause / Resume Floating Button -->
+        <button class="float-pause-btn" id="float-pause-btn" title="Pause / Resume Floating animation">
+          <svg class="pause-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+            <rect x="6" y="4" width="4" height="16" rx="1"></rect>
+            <rect x="14" y="4" width="4" height="16" rx="1"></rect>
+          </svg>
+          <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+          <span class="float-btn-text">Pause Float</span>
+        </button>
+
+        <!-- Category Filter Bar -->
+        <div class="project-filter-bar">
+          <button class="filter-btn active" data-filter="all">All <span class="filter-count">5</span></button>
+          <button class="filter-btn" data-filter="systems">FinTech & Systems <span class="filter-count">2</span></button>
+          <button class="filter-btn" data-filter="spatial">3D & Spatial GIS <span class="filter-count">1</span></button>
+          <button class="filter-btn" data-filter="web">Full Stack & Cloud <span class="filter-count">3</span></button>
+        </div>
       </div>
 
-      <div class="projects-grid">
+      <!-- Floating Marquee Track (Displays Same as Skills) -->
+      <div class="projects-marquee-container" id="projects-marquee-container">
+        <div class="projects-fade-left"></div>
+        <div class="projects-fade-right"></div>
+        <div class="projects-marquee-track" id="projects-marquee-track">
+          <div class="projects-marquee-row" id="projects-marquee-row">
+            <!-- Dynamically populated and duplicated from projects-grid for seamless infinite loop -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Full Responsive Grid Container (Shown in Grid View) -->
+      <div class="projects-grid" id="projects-grid" style="display: none;">
         
         <!-- Project 1: LOB Simulator (Featured Flagship) -->
         <div class="project-card project-featured" data-category="systems">
