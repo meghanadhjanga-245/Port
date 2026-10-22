@@ -5,8 +5,11 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileMenu();
   initScrollAnimations();
   initCarousel();
+  initSkillsViewSwitcher();
   initFloatingProjects();
   initProjectFilters();
+  initProjectModal();
+  initContactForm();
   initSmoothScroll();
   initScrollProgress();
   initBackToTop();
@@ -241,6 +244,23 @@ function initCarousel() {
     carouselWrapper.addEventListener('mouseenter', stopAutoPlay);
     carouselWrapper.addEventListener('mouseleave', startAutoPlay);
   }
+
+  // Keyboard navigation when Education section is in view
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+      const eduSection = document.getElementById('education');
+      if (eduSection) {
+        const rect = eduSection.getBoundingClientRect();
+        const isInView = rect.top < window.innerHeight && rect.bottom > 0;
+        if (isInView) {
+          stopAutoPlay();
+          if (e.key === 'ArrowLeft') prevSlide();
+          else nextSlide();
+          startAutoPlay();
+        }
+      }
+    }
+  });
 }
 
 // ===== Smooth Scroll =====
@@ -452,6 +472,48 @@ function initFloatingProjects() {
       }
     });
   }
+
+  // Mouse drag-to-scroll physics
+  if (marqueeTrack && marqueeRow) {
+    let isDown = false;
+    let startX = 0;
+    let currentMatrixX = 0;
+
+    function getMarqueeTranslateX() {
+      const style = window.getComputedStyle(marqueeRow);
+      const matrix = new DOMMatrixReadOnly(style.transform);
+      return matrix.m41 || 0;
+    }
+
+    marqueeTrack.addEventListener('mousedown', (e) => {
+      if (e.button !== 0 || e.target.closest('a, button')) return;
+      isDown = true;
+      marqueeTrack.classList.add('is-dragging');
+      startX = e.pageX;
+      currentMatrixX = getMarqueeTranslateX();
+      marqueeRow.style.animationPlayState = 'paused';
+      marqueeRow.style.transform = `translateX(${currentMatrixX}px)`;
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const diff = e.pageX - startX;
+      marqueeRow.style.transform = `translateX(${currentMatrixX + diff}px)`;
+    });
+
+    const stopMarqueeDrag = () => {
+      if (!isDown) return;
+      isDown = false;
+      marqueeTrack.classList.remove('is-dragging');
+      if (!marqueeTrack.classList.contains('is-paused')) {
+        marqueeRow.style.animationPlayState = '';
+        marqueeRow.style.transform = '';
+      }
+    };
+
+    window.addEventListener('mouseup', stopMarqueeDrag);
+  }
 }
 
 // ===== Project Filtering =====
@@ -517,5 +579,240 @@ function initProjectFilters() {
         window.updateFloatingProjects(matchingCards);
       }
     });
+  });
+}
+
+// ===== Skills View Switcher (Stream vs Matrix) =====
+function initSkillsViewSwitcher() {
+  const tickerTab = document.getElementById('skills-ticker-tab');
+  const matrixTab = document.getElementById('skills-matrix-tab');
+  const tickerContainer = document.getElementById('skills-marquee-container');
+  const matrixContainer = document.getElementById('skills-matrix-container');
+
+  if (!tickerTab || !matrixTab || !tickerContainer || !matrixContainer) return;
+
+  tickerTab.addEventListener('click', () => {
+    tickerTab.classList.add('active');
+    matrixTab.classList.remove('active');
+    tickerContainer.style.display = 'block';
+    matrixContainer.style.display = 'none';
+  });
+
+  matrixTab.addEventListener('click', () => {
+    matrixTab.classList.add('active');
+    tickerTab.classList.remove('active');
+    tickerContainer.style.display = 'none';
+    matrixContainer.style.display = 'grid';
+  });
+}
+
+// ===== Project Architecture & Specs Modal =====
+function initProjectModal() {
+  const modal = document.getElementById('project-modal');
+  const modalContent = document.getElementById('modal-content');
+  const closeBtn = document.getElementById('modal-close-btn');
+
+  if (!modal || !modalContent) return;
+
+  const projectSpecs = {
+    lob: {
+      title: "LOB Simulator | High-Frequency Exchange Terminal",
+      category: "FinTech · Low-Latency Systems",
+      image: "images/lob-simulator.png",
+      alt: "LOB Simulator Terminal Specs",
+      desc: "Deterministic high-frequency exchange engine & limit order book (LOB) microstructure terminal simulating real-world financial markets. Implements sub-millisecond price-time priority matching, an Avellaneda-Stoikov inventory-aware market-making bot, real-time depth visualization, and order flow imbalance (OFI) analytics.",
+      specs: [
+        "Deterministic Matching Engine: Sub-millisecond order cycle processing with FIFO price-time priority queues.",
+        "Algorithmic Market Maker: Dynamic Avellaneda-Stoikov stochastic control model adapting bid/ask spreads to inventory risk and market volatility.",
+        "Telemetry & OFI Analytics: Real-time Order Flow Imbalance calculation and Level 2 / Level 3 market depth telemetry.",
+        "Engineered with React 18, Vite, High-Performance 2D Canvas/WebGL, and decoupled Web Worker simulation threads."
+      ],
+      liveUrl: "https://lob-59je.onrender.com",
+      liveText: "Launch Live Terminal",
+      codeUrl: "https://github.com/meghanadhjanga-245/LOB"
+    },
+    campus: {
+      title: "Campus Signal Tracer (RVRJC 5G Massive MIMO)",
+      category: "Telecommunications · 3D Spatial GIS",
+      image: "images/campus-signal.png",
+      alt: "Campus Signal Tracer Specs",
+      desc: "5G Massive MIMO Radiometry & 3D Cartographic Navigation System for R.V.R. & J.C. College of Engineering. Delivers real-time 64T64R beam radiation modeling, digital twin 3D spatial navigation, RSRP radiometry telemetry, and campus-wide Wi-Fi 6E hotspot tracking.",
+      specs: [
+        "Massive MIMO Beam Simulation: Real-time 64T64R radiation modeling calculating spatial beamforming and RSRP signal degradation.",
+        "3D Cartography & Ray-Lock: Three.js WebGL scene coupled with georeferenced Mapbox spatial layers for precision building elevation ray-casting.",
+        "Digital Twin Telemetry: Comprehensive spatial polygon mapping of departmental buildings, research centers, and edge Wi-Fi 6E access nodes.",
+        "Built with React.js, Three.js, Mapbox GL JS, D3.js, Spatial GIS GeoJSON, and Tailwind CSS."
+      ],
+      liveUrl: "https://campusnetworkfinder.netlify.app/",
+      liveText: "Explore Live System",
+      codeUrl: "https://github.com/meghanadhjanga-245/Campus-network-finder"
+    },
+    synk: {
+      title: "Synk Board",
+      category: "Cloud · Process Automation",
+      image: "images/synk-board.jpg",
+      alt: "Synk Board Specs",
+      desc: "Production-grade, high-availability process automation board utilizing event-driven micro-architecture to streamline enterprise workflows with real-time state synchronization.",
+      specs: [
+        "Event-Driven Micro-Architecture: Decoupled workflow pipeline with Redux Toolkit and normalized caching for sub-100ms response times.",
+        "90% Latency Reduction: Optimistic UI state updates with WebSockets fallback delivering near-instantaneous state convergence.",
+        "Automated Task Orchestration: Dynamic rule-triggering engine supporting multi-stage task routing and progress telemetry.",
+        "Built with React.js, TypeScript, Redux, Node.js, WebSockets, and Tailwind CSS."
+      ],
+      liveUrl: "https://synk-board-delta.vercel.app/",
+      liveText: "View Live Demo",
+      codeUrl: "https://github.com/meghanadhjanga-245/SynkBoard"
+    },
+    forge: {
+      title: "Forge Fit",
+      category: "Full Stack · Health & Analytics",
+      image: "images/forge-fit.jpg",
+      alt: "Forge Fit Specs",
+      desc: "Scalable health and fitness tracking web application built on clean code principles and OOP design patterns, achieving 30% load time reduction with modular component architecture.",
+      specs: [
+        "Clean OOP Architecture: Applied Factory and Observer design patterns to isolate business domain logic from presentation layers.",
+        "30% Performance Optimization: Route-based lazy loading, image asset optimization, and aggressive tree-shaking.",
+        "Modular Metric Visualizations: Custom responsive SVG analytical charts computing moving averages, volume loads, and progression trends.",
+        "Built with TypeScript, React.js, Tailwind CSS, LocalStorage Sync, and Vite."
+      ],
+      liveUrl: "https://forge-fit-three.vercel.app/",
+      liveText: "View Live Demo",
+      codeUrl: "https://github.com/meghanadhjanga-245/Forge-Fit"
+    },
+    tome: {
+      title: "Tome Tick",
+      category: "Productivity · DevOps & CI/CD",
+      image: "images/tome-tick.png",
+      alt: "Tome Tick Specs",
+      desc: "High-performance real-time task tracking and reporting application integrated with automated CI/CD deployment pipelines via GitHub Actions for seamless continuous delivery.",
+      specs: [
+        "Automated CI/CD Pipeline: GitHub Actions workflow with automated linting, test suites, and zero-downtime edge deployments.",
+        "Real-Time Telemetry & Tracking: Sub-second state reconciliation, milestone countdowns, and exportable audit logs.",
+        "Reliability Engineering: Strict TypeScript types with defensive error boundaries eliminating uncaught runtime exceptions.",
+        "Built with TypeScript, React.js, GitHub Actions, Vercel Edge Network, and CSS3 Custom Properties."
+      ],
+      liveUrl: "https://tome-tick.vercel.app/",
+      liveText: "View Live Demo",
+      codeUrl: "https://github.com/meghanadhjanga-245/TomeTick"
+    }
+  };
+
+  function openModal(projectId) {
+    const data = projectSpecs[projectId];
+    if (!data) return;
+
+    modalContent.innerHTML = `
+      <img src="${data.image}" alt="${data.alt}" class="modal-hero-img" loading="lazy">
+      <span class="modal-category-tag">${data.category}</span>
+      <h3 class="modal-title">${data.title}</h3>
+      <p class="modal-desc">${data.desc}</p>
+      <div class="modal-specs-box">
+        <h4 class="modal-specs-title">Architecture & System Specifications</h4>
+        ${data.specs.map(spec => `
+          <div class="modal-spec-item">
+            <span class="modal-spec-bullet">▸</span>
+            <span>${spec}</span>
+          </div>
+        `).join('')}
+      </div>
+      <div class="modal-actions">
+        <a href="${data.liveUrl}" target="_blank" rel="noopener noreferrer" class="project-btn-primary">
+          <span>${data.liveText}</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </a>
+        <a href="${data.codeUrl}" target="_blank" rel="noopener noreferrer" class="project-btn-secondary">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          <span>Source Code</span>
+        </a>
+      </div>
+    `;
+
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  // Delegated click listener to catch both grid & marquee buttons
+  document.addEventListener('click', (e) => {
+    const archBtn = e.target.closest('.project-btn-arch');
+    if (archBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      const projectKey = archBtn.getAttribute('data-project');
+      if (projectKey) openModal(projectKey);
+    }
+  });
+
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+      closeModal();
+    }
+  });
+}
+
+// ===== Inline Interactive Contact Form =====
+function initContactForm() {
+  const form = document.getElementById('contact-form');
+  if (!form) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submitBtn = document.getElementById('contact-submit-btn');
+    const originalText = submitBtn ? submitBtn.innerHTML : '';
+
+    const name = form.querySelector('[name="name"]')?.value.trim();
+    const email = form.querySelector('[name="email"]')?.value.trim();
+    const subject = form.querySelector('[name="subject"]')?.value.trim();
+    const message = form.querySelector('[name="message"]')?.value.trim();
+
+    if (!name || !email || !message) {
+      showToast('Please fill in all required fields.');
+      return;
+    }
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `
+        <svg class="spin-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation: spin 1s linear infinite;">
+          <circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle>
+          <path d="M12 2a10 10 0 0 1 10 10"></path>
+        </svg>
+        <span>Sending Message...</span>
+      `;
+    }
+
+    try {
+      if (typeof window.sendContactMessage === 'function') {
+        await window.sendContactMessage({ name, email, subject, message });
+      } else {
+        await new Promise((resolve) => setTimeout(resolve, 800));
+      }
+      showToast('Thank you! Your message was delivered to Meghanadh. ✓');
+      form.reset();
+    } catch (err) {
+      console.error('Submission error:', err);
+      showToast('Failed to send message. Please contact meghanadhjanga02@gmail.com directly.');
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+      }
+    }
   });
 }
