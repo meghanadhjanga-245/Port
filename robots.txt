@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://meghanadhjanga-245.github.io/Port/sitemap.xml

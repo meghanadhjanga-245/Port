@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Janga Meghanadh — Full Stack & Systems Engineer</title>
+  <meta name="description" content="Personal portfolio of Janga Meghanadh — Full Stack & Systems Engineer specializing in low-latency systems, 3D spatial computing, and scalable web solutions.">
+  <meta name="theme-color" content="#0a0a0a">
+  <link rel="canonical" href="https://meghanadhjanga-245.github.io/Port/">
+
+  <!-- Fonts (reference: Instrument Serif, Inter, JetBrains Mono) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- OpenGraph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Janga Meghanadh — Full Stack & Systems Engineer">
+  <meta property="og:description" content="Explore flagship projects: Low-Latency Limit Order Book Simulator, 5G Massive MIMO Digital Twin, and high-throughput automations.">
+  <meta property="og:image" content="https://meghanadhjanga-245.github.io/Port/images/portfolio-preview.png">
+  <meta property="og:url" content="https://meghanadhjanga-245.github.io/Port/">
+
+  <!-- Tailwind (CDN, JIT) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"Instrument Serif"', 'serif'],
+            sans: ['Inter', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            bg: 'var(--bg)',
+            fg: 'var(--fg)',
+            muted: 'var(--muted)',
+            soft: 'var(--soft)',
+            line: 'var(--line)',
+            hover: 'var(--hover)',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    :root {
+      --bg: #fafafa;
+      --fg: #0a0a0a;
+      --muted: #525252;
+      --soft: #a3a3a3;
+      --line: #e5e5e5;
+      --hover: #f0f0f0;
+    }
+    .dark {
+      --bg: #0a0a0a;
+      --fg: #fafafa;
+      --muted: #a3a3a3;
+      --soft: #525252;
+      --line: #262626;
+      --hover: #171717;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--fg); }
+    ::selection { background: #262626; color: #fafafa; }
+    .dark ::selection { background: #fafafa; color: #0a0a0a; }
+    .font-serif { font-family: 'Instrument Serif', serif; }
+    .dashed-x { border-left: 1px dashed var(--line); border-right: 1px dashed var(--line); }
+    .dashed-y { border-top: 1px dashed var(--line); border-bottom: 1px dashed var(--line); }
+    .dashed-all { border: 1px dashed var(--line); }
+    .card-hover { transition: background-color .2s ease, transform .2s ease; }
+    .card-hover:hover { background: var(--hover); }
+    .project-img { transition: transform .5s ease; }
+    .group:hover .project-img { transform: scale(1.08); }
+    .project-overlay { opacity: 0; transition: opacity .3s ease; }
+    .group:hover .project-overlay { opacity: 1; }
+    .badge { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--soft); }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    @keyframes fadeUp { from { opacity:0; transform: translateY(12px);} to { opacity:1; transform: translateY(0);} }
+    .fade-up { animation: fadeUp .6s ease both; }
+    .stagger > * { animation: fadeUp .6s ease both; }
+    .stagger > *:nth-child(1){animation-delay:.05s}
+    .stagger > *:nth-child(2){animation-delay:.1s}
+    .stagger > *:nth-child(3){animation-delay:.15s}
+    .stagger > *:nth-child(4){animation-delay:.2s}
+    .stagger > *:nth-child(5){animation-delay:.25s}
+    .project-card { transition: transform .25s ease, box-shadow .25s ease; }
+    .project-card:hover { transform: translateY(-2px); }
+    .filter-btn.active { color: var(--fg); border-color: var(--fg); }
+    .skill-pill { transition: all .2s ease; }
+    .skill-pill:hover { background: var(--hover); }
+    .theme-icon-sun, .theme-icon-moon { display: none; }
+    .dark .theme-icon-sun { display: block; }
+    html:not(.dark) .theme-icon-moon { display: block; }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body class="font-sans antialiased">
+
+  <!-- Fixed header -->
+  <header class="fixed top-0 left-0 right-0 z-50">
+    <div class="relative mx-auto w-full max-w-[760px] border-x border-dashed border-[var(--line)] flex items-center justify-between px-6 py-4 sm:px-8 backdrop-blur-md bg-[var(--bg)]/85">
+      <a href="/" class="font-serif text-xl tracking-wide text-[var(--fg)] hover:opacity-80 transition-opacity">Meghanadh</a>
+      <nav class="hidden sm:flex items-center gap-5 text-[13px] text-[var(--muted)]">
+        <a class="group relative transition-colors hover:text-[var(--fg)]" href="#projects">Projects<span class="absolute -bottom-0.5 left-0 h-px w-full origin-right scale-x-0 bg-current transition-transform duration-300 group-hover:origin-left group-hover:scale-x-100"></span></a>
+        <a class="group relative transition-colors hover:text-[var(--fg)]" href="#experience">Experience<span class="absolute -bottom-0.5 left-0 h-px w-full origin-right scale-x-0 bg-current transition-transform duration-300 group-hover:origin-left group-hover:scale-x-100"></span></a>
+        <a class="group relative transition-colors hover:text-[var(--fg)]" href="#skills">Tech Stack<span class="absolute -bottom-0.5 left-0 h-px w-full origin-right scale-x-0 bg-current transition-transform duration-300 group-hover:origin-left group-hover:scale-x-100"></span></a>
+        <a class="group relative transition-colors hover:text-[var(--fg)]" href="#contact">Contact<span class="absolute -bottom-0.5 left-0 h-px w-full origin-right scale-x-0 bg-current transition-transform duration-300 group-hover:origin-left group-hover:scale-x-100"></span></a>
+        <button type="button" aria-label="Toggle theme" id="theme-toggle" class="grid size-7 place-items-center rounded-full border border-[var(--line)] text-[var(--muted)] transition-all duration-300 hover:rotate-45 hover:text-[var(--fg)] cursor-pointer">
+          <svg class="theme-icon-sun size-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+          <svg class="theme-icon-moon size-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+        </button>
+      </nav>
+      <div class="flex sm:hidden items-center gap-3">
+        <button type="button" aria-label="Toggle theme" id="theme-toggle-mobile" class="grid size-8 place-items-center rounded-full border border-[var(--line)] text-[var(--muted)] hover:text-[var(--fg)] cursor-pointer">
+          <svg class="theme-icon-sun size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+          <svg class="theme-icon-moon size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+        </button>
+        <button type="button" aria-label="Toggle Mobile Menu" id="mobile-menu-btn" class="grid size-8 place-items-center rounded-full border border-[var(--line)] text-[var(--muted)] hover:text-[var(--fg)] cursor-pointer">
+          <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden sm:hidden relative mx-auto w-full max-w-[760px] border-x border-dashed border-[var(--line)] bg-[var(--bg)] px-6 py-4">
+      <nav class="flex flex-col gap-3 text-[14px] text-[var(--muted)]">
+        <a class="hover:text-[var(--fg)]" href="#projects">Projects</a>
+        <a class="hover:text-[var(--fg)]" href="#experience">Experience</a>
+        <a class="hover:text-[var(--fg)]" href="#skills">Tech Stack</a>
+        <a class="hover:text-[var(--fg)]" href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <div class="h-[64px]"></div>
+
+  <!-- On-page nav (desktop) -->
+  <aside class="group fixed top-[24vh] left-[calc(50%+400px)] z-30 hidden xl:block w-10 hover:w-[170px] transition-[width] duration-300 ease-out">
+    <div class="mb-2 h-6 overflow-hidden px-2 whitespace-nowrap">
+      <span class="font-mono text-[10px] font-medium uppercase tracking-[0.12em] text-[var(--soft)] opacity-0 transition-opacity duration-200 group-hover:opacity-100">On this page</span>
+    </div>
+    <nav class="flex flex-col gap-[2px]">
+      <a href="#about" title="About" class="group/item flex h-8 w-full items-center gap-2.5 overflow-hidden rounded-md px-2 font-sans text-[12px] whitespace-nowrap transition-all duration-200 text-[var(--soft)] hover:bg-[var(--hover)] hover:text-[var(--fg)]">
+        <svg class="shrink-0 size-[15px] transition-colors duration-200 text-[var(--soft)] group-hover/item:text-[var(--fg)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        <span class="overflow-hidden opacity-0 max-w-0 transition-all duration-300 ease-out group-hover:max-w-[120px] group-hover:opacity-100">About</span>
+      </a>
+      <a href="#contact" title="Contact" class="group/item flex h-8 w-full items-center gap-2.5 overflow-hidden rounded-md px-2 font-sans text-[12px] whitespace-nowrap transition-all duration-200 text-[var(--soft)] hover:bg-[var(--hover)] hover:text-[var(--fg)]">
+        <svg class="shrink-0 size-[15px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+        <span class="overflow-hidden opacity-0 max-w-0 transition-all duration-300 ease-out group-hover:max-w-[120px] group-hover:opacity-100">Contact</span>
+      </a>
+      <a href="#projects" title="Projects" class="group/item flex h-8 w-full items-center gap-2.5 overflow-hidden rounded-md px-2 font-sans text-[12px] whitespace-nowrap transition-all duration-200 text-[var(--soft)] hover:bg-[var(--hover)] hover:text-[var(--fg)]">
+        <svg class="shrink-0 size-[15px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"></path></svg>
+        <span class="overflow-hidden opacity-0 max-w-0 transition-all duration-300 ease-out group-hover:max-w-[120px] group-hover:opacity-100">Projects</span>
+      </a>
+      <a href="#experience" title="Experience" class="group/item flex h-8 w-full items-center gap-2.5 overflow-hidden rounded-md px-2 font-sans text-[12px] whitespace-nowrap transition-all duration-200 text-[var(--soft)] hover:bg-[var(--hover)] hover:text-[var(--fg)]">
+        <svg class="shrink-0 size-[15px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+        <span class="overflow-hidden opacity-0 max-w-0 transition-all duration-300 ease-out group-hover:max-w-[120px] group-hover:opacity-100">Experience</span>
+      </a>
+    </nav>
+  </aside>
+
+  <main class="relative mx-auto w-full max-w-[760px] border-x border-dashed border-[var(--line)] min-h-screen">
+
+    <!-- Hero -->
+    <section class="px-6 sm:px-8 pt-10 pb-8 border-b border-dashed border-[var(--line)]">
+      <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex flex-wrap items-center gap-2">
+          <button id="play-volleyball-btn" type="button" class="inline-flex items-center gap-2 px-4 py-2 border border-dashed border-[var(--line)] rounded-md text-[13px] text-[var(--fg)] hover:bg-[var(--hover)] transition-colors">
+            <span class="mono text-[11px]">PLAY ME</span>
+            <span class="text-[var(--soft)]">·</span>
+            <span class="text-[12px] text-[var(--muted)]">Volleyball</span>
+          </button>
+          <a href="mailto:meghanadhjanga02@gmail.com?subject=Let%27s%20collaborate" onclick="openEmail()" class="inline-flex items-center gap-2 px-4 py-2 border border-dashed border-[var(--line)] rounded-md text-[13px] text-[var(--fg)] bg-[var(--hover)] hover:bg-[var(--line)] transition-colors">
+            <span class="mono text-[11px]">EMAIL ME</span>
+            <span class="text-[var(--soft)]">·</span>
+            <span class="text-[12px] text-[var(--muted)]">Primary</span>
+          </a>
+        </div>
+        <div class="flex items-center gap-2">
+          <a href="https://github.com/meghanadhjanga-245" target="_blank" rel="noopener noreferrer" class="text-[12px] mono text-[var(--muted)] hover:text-[var(--fg)]">GitHub ↗</a>
+          <a href="https://www.linkedin.com/in/meghanadh-janga-125ab021a" target="_blank" rel="noopener noreferrer" class="text-[12px] mono text-[var(--muted)] hover:text-[var(--fg)]">LinkedIn ↗</a>
+        </div>
+      </div>
+      <div class="flex items-start gap-6">
+        <div class="relative shrink-0">
+          <img src="images/profile.jpg" alt="Janga Meghanadh" class="size-24 sm:size-28 rounded-full object-cover border border-dashed border-[var(--line)]" />
+        </div>
+        <div class="flex-1 min-w-0">
+          <h1 class="font-serif text-4xl sm:text-5xl leading-none tracking-tight text-[var(--fg)]">Janga Meghanadh</h1>
+          <p class="mt-2 text-[15px] text-[var(--muted)]">Full Stack & Systems Engineer</p>
+          <div class="mt-3 flex flex-wrap items-center gap-3 text-[12px] text-[var(--soft)] mono">
+            <span class="flex items-center gap-1.5">
+              <svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              India
+            </span>
+            <span>·</span>
+            <span>Open to opportunities</span>
+          </div>
+        </div>
+      </div>
+      <p class="mt-6 text-[15px] leading-relaxed text-[var(--muted)] max-w-[640px]">
+        I'm Janga Meghanadh, a Full Stack & Systems Engineer focused on engineering scalable web applications, low-latency financial systems, and automated workflows.
+      </p>
+      <p class="mt-3 text-[15px] leading-relaxed text-[var(--muted)] max-w-[640px]">
+        Proficient in Python, TypeScript, React.js, SQL, and REST APIs, with a strong interest in software architecture, quantitative systems, and financial technology.
+      </p>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="px-6 sm:px-8 py-8 border-b border-dashed border-[var(--line)]">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="font-serif text-2xl text-[var(--fg)]">About</h2>
+        <button id="hover-sound" class="text-[11px] mono text-[var(--soft)] hover:text-[var(--fg)] transition-colors" aria-pressed="false">Enable hover sounds</button>
+      </div>
+      <div class="space-y-3 text-[14px] leading-relaxed text-[var(--muted)]">
+        <p>• Computer Science student at R.V.R. & J.C. College of Engineering (CGPA: 8.9/10) focused on engineering scalable web applications, low-latency financial systems, and automated workflows.</p>
+        <p>• Proficient in Python, TypeScript, React.js, SQL, and REST APIs, with a strong interest in software architecture, quantitative systems, and financial technology.</p>
+        <p>• Currently looking for opportunities to contribute to a team, grow as an engineer, and build products that matter.</p>
+      </div>
+      <!-- Stats -->
+      <div class="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div class="border border-dashed border-[var(--line)] rounded-md p-3">
+          <div class="font-serif text-2xl text-[var(--fg)]">8.9<span class="text-[var(--soft)] text-sm">/10</span></div>
+          <div class="text-[11px] mono text-[var(--soft)] mt-1">CGPA</div>
+        </div>
+        <div class="border border-dashed border-[var(--line)] rounded-md p-3">
+          <div class="font-serif text-2xl text-[var(--fg)]">5+</div>
+          <div class="text-[11px] mono text-[var(--soft)] mt-1">Projects</div>
+        </div>
+        <div class="border border-dashed border-[var(--line)] rounded-md p-3">
+          <div class="font-serif text-2xl text-[var(--fg)]">90%</div>
+          <div class="text-[11px] mono text-[var(--soft)] mt-1">Latency cut</div>
+        </div>
+        <div class="border border-dashed border-[var(--line)] rounded-md p-3">
+          <div class="font-serif text-2xl text-[var(--fg)]">14+</div>
+          <div class="text-[11px] mono text-[var(--soft)] mt-1">Certs</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="px-6 sm:px-8 py-8 border-b border-dashed border-[var(--line)]">
+      <h2 class="font-serif text-2xl text-[var(--fg)] mb-4">Contact</h2>
+      <div class="flex flex-wrap items-center gap-2">
+        <a href="https://github.com/meghanadhjanga-245" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-3 py-2 border border-dashed border-[var(--line)] rounded-md text-[13px] text-[var(--muted)] hover:text-[var(--fg)] hover:bg-[var(--hover)] transition-colors">
+          <svg class="size-4" viewBox="0 0 24 24" fill="currentColor"><use href="#icon-github"></use></svg> GitHub
+        </a>
+        <a href="https://www.linkedin.com/in/meghanadh-janga-125ab021a" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-3 py-2 border border-dashed border-[var(--line)] rounded-md text-[13px] text-[var(--muted)] hover:text-[var(--fg)] hover:bg-[var(--hover)] transition-colors">
+          <svg class="size-4" viewBox="0 0 24 24" fill="#0077b5"><use href="#icon-linkedin"></use></svg> LinkedIn
+        </a>
+        <a href="mailto:meghanadhjanga02@gmail.com" class="flex items-center gap-2 px-3 py-2 border border-dashed border-[var(--line)] rounded-md text-[13px] text-[var(--muted)] hover:text-[var(--fg)] hover:bg-[var(--hover)] transition-colors">
+          <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg> Mail
+        </a>
+        <a href="Janga_Meghanadh_resume.pdf" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-3 py-2 border border-dashed border-[var(--line)] rounded-md text-[13px] text-[var(--muted)] hover:text-[var(--fg)] hover:bg-[var(--hover)] transition-colors">
+          <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg> Resume
+        </a>
+      </div>
+      <!-- Contact form -->
+      <form class="mt-6 space-y-3" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="19942b6e-8e0c-4b91-876f-63c67bd18d53">
+        <input type="hidden" name="from_name" value="Portfolio Visitor">
+        <input type="checkbox" name="botcheck" class="hidden" style="display:none">
+        <div class="grid sm:grid-cols-2 gap-3">
+          <input type="text" name="name" required placeholder="Your name" class="w-full px-3 py-2 border border-dashed border-[var(--line)] rounded-md bg-transparent text-[13px] text-[var(--fg)] placeholder:text-[var(--soft)] focus:outline-none focus:border-[var(--fg)]" />
+          <input type="email" name="email" required placeholder="Email address" class="w-full px-3 py-2 border border-dashed border-[var(--line)] rounded-md bg-transparent text-[13px] text-[var(--fg)] placeholder:text-[var(--soft)] focus:outline-none focus:border-[var(--fg)]" />
+        </div>
+        <input type="text" name="subject" required placeholder="Subject" class="w-full px-3 py-2 border border-dashed border-[var(--line)] rounded-md bg-transparent text-[13px] text-[var(--fg)] placeholder:text-[var(--soft)] focus:outline-none focus:border-[var(--fg)]" />
+        <textarea name="message" required rows="4" placeholder="Message" class="w-full px-3 py-2 border border-dashed border-[var(--line)] rounded-md bg-transparent text-[13px] text-[var(--fg)] placeholder:text-[var(--soft)] focus:outline-none focus:border-[var(--fg)] resize-none"></textarea>
+        <button type="submit" class="px-4 py-2 border border-dashed border-[var(--line)] rounded-md text-[13px] text-[var(--fg)] hover:bg-[var(--hover)] transition-colors">Send Direct Message ↗</button>
+      </form>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="px-6 sm:px-8 py-8 border-b border-dashed border-[var(--line)]">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="font-serif text-2xl text-[var(--fg)]">Projects</h2>
+      </div>
+      <div class="flex flex-wrap gap-2 mb-6" id="project-filters">
+        <button data-filter="all" class="filter-btn active px-3 py-1.5 text-[12px] mono border border-dashed border-[var(--line)] rounded-md text-[var(--muted)] hover:text-[var(--fg)] transition-colors">All</button>
+        <button data-filter="systems" class="filter-btn px-3 py-1.5 text-[12px] mono border border-dashed border-[var(--line)] rounded-md text-[var(--muted)] hover:text-[var(--fg)] transition-colors">FinTech & Systems</button>
+        <button data-filter="spatial" class="filter-btn px-3 py-1.5 text-[12px] mono border border-dashed border-[var(--line)] rounded-md text-[var(--muted)] hover:text-[var(--fg)] transition-colors">3D & Spatial</button>
+        <button data-filter="web" class="filter-btn px-3 py-1.5 text-[12px] mono border border-dashed border-[var(--line)] rounded-md text-[var(--muted)] hover:text-[var(--fg)] transition-colors">Full Stack & Cloud</button>
+      </div>
+
+      <div class="space-y-4" id="projects-list">
+
+        <!-- Project 1 -->
+        <article class="project-card border border-dashed border-[var(--line)] rounded-lg overflow-hidden card-hover" data-category="systems">
+          <div class="relative">
+            <img src="images/lob-simulator.png" alt="LOB Simulator" class="w-full h-44 object-cover" loading="lazy" />
+            <div class="absolute top-3 left-3 flex gap-1.5">
+              <span class="badge bg-[var(--bg)]/80 backdrop-blur px-2 py-0.5 rounded border border-dashed border-[var(--line)]">REC</span>
+              <span class="badge bg-[var(--bg)]/80 backdrop-blur px-2 py-0.5 rounded border border-dashed border-[var(--line)]">LIVE</span>
+              <span class="badge bg-[var(--bg)]/80 backdrop-blur px-2 py-0.5 rounded border border-dashed border-[var(--line)]">FEATURED</span>
+            </div>
+            <span class="absolute top-3 right-3 badge bg-[var(--bg)]/80 backdrop-blur px-2 py-0.5 rounded border border-dashed border-[var(--line)]">2025</span>
+          </div>
+          <div class="p-4">
+            <h3 class="font-serif text-xl text-[var(--fg)]">LOB Simulator | High-Frequency Exchange Terminal</h3>
+            <p class="mt-2 text-[13px] leading-relaxed text-[var(--muted)]">Deterministic high-frequency exchange engine & limit order book (LOB) microstructure terminal. Sub-millisecond matching, Avellaneda-Stoikov market maker, OFI analytics.</p>
+            <div class="mt-3 flex flex-wrap gap-1.5">
+              <span class="text-[11px] mono px-2 py-0.5 border border-dashed border-[var(--line)] rounded text-[var(--soft)]">React.js</span>
+              <span class="text-[11px] mono px-2 py-0.5 border border-dashed border-[var(--line)] rounded text-[var(--soft)]">Vite</span>
+              <span class="text-[11px] mono px-2 py-0.5 border border-dashed border-[var(--line)] rounded text-[var(--soft)]">Canvas/WebGL</span>
+            </div>
+            <div class="mt-4 flex items-center gap-3">
+              <a href="https://lob-59je.onrender.com" target="_blank" rel="noopener noreferrer" class="text-[12px] mono text-[var(--fg)] hover:underline">Live ↗</a>
+              <a href="https://github.com/meghanadhjanga-245/LOB" target="_blank" rel="noopener noreferrer" class="text-[12px] mono text-[var(--muted)] hover:text-[var(--fg)]">Code</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 2 -->
+        <article class="project-card border border-dashed border-[var(--line)] rounded-lg overflow-hidden card-hover" data-category="spatial">
+          <div class="relative">
+            <img src="images/campus-signal.png" alt="Campus Signal Tracer" class="w-full h-44 object-cover" loading="lazy" />
+            <div class="absolute top-3 left-3 flex gap-1.5">
+              <span class="badge bg-[var(--bg)]/80 backdrop-blur px-2 py-0.5 rounded border border-dashed border-[var(--line)]">REC</span>
+              <span class="badge bg-[var(--bg)]/80 backdrop-blur px-2 py-0.5 rounded border border-dashed border-[var(--line)]">LIVE</span>
+            </div>
+            <span class="absolute top-3 right-3 badge bg-[var(--bg)]/80 backdrop-blur px-2 py-0.5 rounded border border-dashed border-[var(--line)]">2025</span>
+          </div>
+          <div class="p-4">
+            <h3 class="font-serif text-xl text-[var(--fg)]">Campus Signal Tracer (RVRJC 5G MIMO)</h3>
+            <p class="mt-2 text-[13px] leading-relaxed text-[var(--muted)]">5G Massive MIMO Radiometry & 3D Cartographic Navigation System for R.V.R. & J.C. College. 64T64R beam modeling, digital twin, RSRP telemetry.</p>
+            <div class="mt-3 flex flex-wrap gap-1.5">
+              <span class="text-[11px] mono px-2 py-0.5 border border-dashed border-[var(--line)] rounded text-[var(--soft)]">React.js</span>
+              <span class="text-[11px] mono px-2 py-0.5 border border-dashed border-[var(--line)] rounded text-[var(--soft)]">Three.js</span>
+              <span class="text-[11px] mono px-2 py-0.5 border border-dashed border-[var(--line)] rounded text-[var(--soft)]">Mapbox</span>
+            </div>
+            <div class="mt-4 flex items-center gap-3">
+              <a href="https://campusnetworkfinder.netlify.app/" target="_blank" rel="noopener noreferrer" class="text-[12px] mono text-[var(--fg)] hover:underline">Live ↗</a>
+              <a href="https://github.com/meghanadhjanga-245/Campus-network-finder" target="_blank" rel="noopener noreferrer" class="text-[12px] mono text-[var(--muted)] hover:text-[var(--fg)]">Code</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 3 -->
+        <article class="project-card border border-dashed border-[var(--line)] rounded-lg overflow-hidden card-hover" data-category="web systems">
+          <div class="relative group overflow-hidden">
+            <img src="images/synk-board.jpg" alt="Synk Board" class="project-img w-full h-44 object-cover" loading="lazy" />
+            <div class="project-overlay absolute inset-0 bg-black/40 flex items-center justify-center gap-3">
+              <a href="https://synk-board-delta.vercel.app/" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 border border-dashed border-white/40 rounded-md text-[12px] mono text-white hover:bg-white/10 transition-colors">Live ↗</a>
+              <a href="https://github.com/meghanadhjanga-245/SynkBoard" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 border border-dashed border-white/40 rounded-md text-[12px] mono text-white hover:bg-white/10 transition-colors">Code</a>
+            </div>
+            <div class="absolute top-3 left-3 flex gap-1.5">
+              <span class="badge bg-[var(--bg)]/80 backdrop-blur px-2 py-0.5 rounded border border-dashed border-[var(--line)]">LIVE</span>
+            </div>
+            <span class="absolute top-3 right-3 badge bg-[var(--bg)]/80 backdrop-blur px-2 py-0.5 rounded border border-dashed border-[var(--line)]">2025</span>
+          </div>
+          <div class="p-4">
+            <h3 class="font-serif text-xl text-[var(--fg)]">Synk Board</h3>
+            <p class="mt-2 text-[13px] leading-relaxed text-[var(--muted)]">Production-grade process automation board with event-driven architecture, 90% latency reduction, real-time state sync.</p>
+            <div class="mt-3 flex flex-wrap gap-1.5">
+              <span class="text-[11px] mono px-2 py-0.5 border border-dashed border-[var(--line)] rounded text-[var(--soft)]">React.js</span>
+              <span class="text-[11px] mono px-2 py-0.5 border border-dashed border-[var(--line)] rounded text-[var(--soft)]">TypeScript</span>
+              <span class="text-[11px] mono px-2 py-0.5 border border-dashed border-[var(--line)] rounded text-[var(--soft)]">Redux</span>
+            </div>
+            <div class="mt-4 flex items-center gap-3">
+              <a href="https://synk-board-delta.vercel.app/" target="_blank" rel="noopener noreferrer" class="text-[12px] mono text-[var(--fg)] hover:underline">Live ↗</a>
+              <a href="https://github.com/meghanadhjanga-245/SynkBoard" target="_blank" rel="noopener noreferrer" class="text-[12px] mono text-[var(--muted)] hover:text-[var(--fg)]">Code</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 4 -->
+        <article class="project-card border border-dashed border-[var(--line)] rounded-lg overflow-hidden card-hover" data-category="web">
+          <div class="relative group overflow-hidden">
+            <img src="images/forge-fit.jpg" alt="Forge Fit" class="project-img w-full h-44 object-cover" loading="lazy" />
+            <div class="project-overlay absolute inset-0 bg-black/40 flex items-center justify-center gap-3">
+              <a href="https://forge-fit-three.vercel.app/" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 border border-dashed border-white/40 rounded-md text-[12px] mono text-white hover:bg-white/10 transition-colors">Live ↗</a>
+              <a href="https://github.com/meghanadhjanga-245/Forge-Fit" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 border border-dashed border-white/40 rounded-md text-[12px] mono text-white hover:bg-white/10 transition-colors">Code</a>
+            </div>
+            <div class="absolute top-3 left-3 flex gap-1.5">
+              <span class="badge bg-[var(--bg)]/80 backdrop-blur px-2 py-0.5 rounded border border-dashed border-[var(--line)]">LIVE</span>
+            </div>
+            <span class="absolute top-3 right-3 badge bg-[var(--bg)]/80 backdrop-blur px-2 py-0.5 rounded border border-dashed border-[var(--line)]">2025</span>
+          </div>
+          <div class="p-4">
+            <h3 class="font-serif text-xl text-[var(--fg)]">Forge Fit</h3>
+            <p class="mt-2 text-[13px] leading-relaxed text-[var(--muted)]">Scalable health & fitness tracking app with clean OOP architecture, 30% load-time reduction.</p>
+            <div class="mt-3 flex flex-wrap gap-1.5">
+              <span class="text-[11px] mono px-2 py-0.5 border border-dashed border-[var(--line)] rounded text-[var(--soft)]">TypeScript</span>
+              <span class="text-[11px] mono px-2 py-0.5 border border-dashed border-[var(--line)] rounded text-[var(--soft)]">React.js</span>
+              <span class="text-[11px] mono px-2 py-0.5 border border-dashed border-[var(--line)] rounded text-[var(--soft)]">Tailwind</span>
+            </div>
+            <div class="mt-4 flex items-center gap-3">
+              <a href="https://forge-fit-three.vercel.app/" target="_blank" rel="noopener noreferrer" class="text-[12px] mono text-[var(--fg)] hover:underline">Live ↗</a>
+              <a href="https://github.com/meghanadhjanga-245/Forge-Fit" target="_blank" rel="noopener noreferrer" class="text-[12px] mono text-[var(--muted)] hover:text-[var(--fg)]">Code</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 5 -->
+        <article class="project-card border border-dashed border-[var(--line)] rounded-lg overflow-hidden card-hover" data-category="web">
+          <div class="relative">
+            <img src="images/tome-tick.jpg" alt="Tome Tick" class="w-full h-44 object-cover" loading="lazy" />
+            <div class="absolute top-3 left-3 flex gap-1.5">
+              <span class="badge bg-[var(--bg)]/80 backdrop-blur px-2 py-0.5 rounded border border-dashed border-[var(--line)]">LIVE</span>
+            </div>
+            <span class="absolute top-3 right-3 badge bg-[var(--bg)]/80 backdrop-blur px-2 py-0.5 rounded border border-dashed border-[var(--line)]">2025</span>
+          </div>
+          <div class="p-4">
+            <h3 class="font-serif text-xl text-[var(--fg)]">Tome Tick</h3>
+            <p class="mt-2 text-[13px] leading-relaxed text-[var(--muted)]">Real-time task tracking & reporting app with automated CI/CD via GitHub Actions.</p>
+            <div class="mt-3 flex flex-wrap gap-1.5">
+              <span class="text-[11px] mono px-2 py-0.5 border border-dashed border-[var(--line)] rounded text-[var(--soft)]">TypeScript</span>
+              <span class="text-[11px] mono px-2 py-0.5 border border-dashed border-[var(--line)] rounded text-[var(--soft)]">React.js</span>
+              <span class="text-[11px] mono px-2 py-0.5 border border-dashed border-[var(--line)] rounded text-[var(--soft)]">CI/CD</span>
+            </div>
+            <div class="mt-4 flex items-center gap-3">
+              <a href="https://tome-tick.vercel.app/" target="_blank" rel="noopener noreferrer" class="text-[12px] mono text-[var(--fg)] hover:underline">Live ↗</a>
+              <a href="https://github.com/meghanadhjanga-245/TomeTick" target="_blank" rel="noopener noreferrer" class="text-[12px] mono text-[var(--muted)] hover:text-[var(--fg)]">Code</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section id="experience" class="px-6 sm:px-8 py-8 border-b border-dashed border-[var(--line)]">
+      <h2 class="font-serif text-2xl text-[var(--fg)] mb-4">Experience</h2>
+      <div class="space-y-6">
+        <div>
+          <div class="flex flex-wrap items-baseline justify-between gap-2">
+            <h3 class="font-serif text-lg text-[var(--fg)]">Frontend Developer Intern <span class="text-[var(--soft)]">·</span> <span class="text-[var(--muted)]">Edunet Foundation × IBM SkillsBuild</span></h3>
+            <span class="text-[11px] mono text-[var(--soft)]">Aug – Sep 2025</span>
+          </div>
+          <ul class="mt-2 space-y-1.5 text-[13px] text-[var(--muted)] leading-relaxed">
+            <li class="flex gap-2"><span class="text-[var(--soft)]">•</span> Documented current-state and future-state processes for web application workflows.</li>
+            <li class="flex gap-2"><span class="text-[var(--soft)]">•</span> Partnered with developers on systematic testing, cutting error rate by 40%.</li>
+            <li class="flex gap-2"><span class="text-[var(--soft)]">•</span> Contributed to CI/CD pipeline via GitHub Actions enabling reliable automated releases.</li>
+          </ul>
+          <a href="https://drive.google.com/file/d/1vgcT7LPeQKKK4Lok4HUl_afgdf5hKXo2/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="inline-block mt-2 text-[12px] mono text-[var(--muted)] hover:text-[var(--fg)]">View Certificate ↗</a>
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <div class="flex flex-wrap items-baseline justify-between gap-2">
+          <h3 class="font-serif text-lg text-[var(--fg)]">Winter Intern <span class="text-[var(--soft)]">·</span> <span class="text-[var(--muted)]">Centre for Digital Infrastructure, NIT Tiruchirappalli</span></h3>
+          <span class="text-[11px] mono text-[var(--soft)]">Winter 2026</span>
+        </div>
+        <ul class="mt-2 space-y-1.5 text-[13px] text-[var(--muted)] leading-relaxed">
+          <li class="flex gap-2"><span class="text-[var(--soft)]">•</span> Built an Order-to-Audit System prototype for Sri Lakshmi Snacks — end-to-end from salesman mobile order to auditor's monthly statutory reports.</li>
+          <li class="flex gap-2"><span class="text-[var(--soft)]">•</span> Achieved 20/20 Section 5 benchmark figures matching exactly; shipped an interactive Benchmark Studio.</li>
+          <li class="flex gap-2"><span class="text-[var(--soft)]">•</span> Role-based flows (factory admin, production supervisor, auditor) with 1-click role switcher; GST invoicing, dispatch, payments.</li>
+        </ul>
+        <a href="https://github.com/meghanadhjanga-245/order-to-audit-internship" target="_blank" rel="noopener noreferrer" class="inline-block mt-2 text-[12px] mono text-[var(--muted)] hover:text-[var(--fg)]">View Repository ↗</a>
+      </div>
+
+      <div class="mt-6">
+        <div class="flex flex-wrap items-baseline justify-between gap-2">
+          <h3 class="font-serif text-lg text-[var(--fg)]">Java Full Stack Intern <span class="text-[var(--soft)]">·</span> <span class="text-[var(--muted)]">AICTE – EduSkills Virtual Internship</span></h3>
+          <span class="text-[11px] mono text-[var(--soft)]">Apr – Jun 2026</span>
+        </div>
+        <p class="mt-1 text-[12px] mono text-[var(--soft)]">Certificate ID: 2026-3A8F8FF957 · Issued Sep 03, 2026</p>
+        <ul class="mt-2 space-y-1.5 text-[13px] text-[var(--muted)] leading-relaxed">
+          <li class="flex gap-2"><span class="text-[var(--soft)]">•</span> 8-week structured program: HTML, CSS, Bootstrap, JavaScript & jQuery, Core & Advanced Java, Spring Framework & Spring Boot, Hibernate, MySQL & Git.</li>
+          <li class="flex gap-2"><span class="text-[var(--soft)]">•</span> Project: Simple Finite State Machine (FSM) in Java.</li>
+          <li class="flex gap-2"><span class="text-[var(--soft)]">•</span> Weekly assessments, project documentation, final assessment test; certificate on successful completion.</li>
+        </ul>
+        <a href="https://github.com/meghanadhjanga-245" target="_blank" rel="noopener noreferrer" class="inline-block mt-2 text-[12px] mono text-[var(--muted)] hover:text-[var(--fg)]">Offer Letter Ref: C16Y2026M111361443 ↗</a>
+      </div>
+
+      <div class="mt-6">
+        <div class="flex flex-wrap items-baseline justify-between gap-2">
+          <h3 class="font-serif text-lg text-[var(--fg)]">MERN Full Stack Intern <span class="text-[var(--soft)]">·</span> <span class="text-[var(--muted)]">EduSkills / AICTE Virtual Internship</span></h3>
+          <span class="text-[11px] mono text-[var(--soft)]">8-Week Program</span>
+        </div>
+        <p class="mt-1 text-[12px] mono text-[var(--soft)]">Certificate ID: 2026-A79F2BC514 · Issued Mar 31, 2026</p>
+        <ul class="mt-2 space-y-1.5 text-[13px] text-[var(--muted)] leading-relaxed">
+          <li class="flex gap-2"><span class="text-[var(--soft)]">•</span> MERN full-stack: React, Hooks, Context/Redux, React Router, TailwindCSS, Node.js, Express.js, MongoDB & Mongoose, REST APIs, JWT auth, DevOps/Git/Deployment.</li>
+          <li class="flex gap-2"><span class="text-[var(--soft)]">•</span> Capstone: E-commerce Platform with User Management & Product Catalog; Project: Text Pattern Detector.</li>
+        </ul>
+      </div>
+
+      <h3 class="font-serif text-xl text-[var(--fg)] mt-8 mb-3">Education</h3>
+      <div>
+        <div class="flex flex-wrap items-baseline justify-between gap-2">
+          <h4 class="font-serif text-lg text-[var(--fg)]">B.Tech in Computer Science & Engineering <span class="text-[var(--soft)]">·</span> <span class="text-[var(--muted)]">R.V.R & J.C. College of Engineering</span></h4>
+          <span class="text-[11px] mono text-[var(--soft)]">2023 – 2027</span>
+        </div>
+        <p class="mt-1 text-[13px] text-[var(--muted)]">CGPA: 8.9 / 10.0</p>
+      </div>
+
+      <h3 class="font-serif text-xl text-[var(--fg)] mt-8 mb-3">Certifications</h3>
+      <div class="flex flex-wrap gap-2">
+        <a href="https://drive.google.com/file/d/1YAnuOGmFgQirIPkBvwnpviqlNaWf8dmf/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)] hover:text-[var(--fg)] hover:bg-[var(--hover)] transition-colors">Java (Infosys)</a>
+        <a href="https://drive.google.com/file/d/1bPy6G22cY3mknC7Q4DQ0zxFaC6eFWlRS/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)] hover:text-[var(--fg)] hover:bg-[var(--hover)] transition-colors">DSA (Infosys)</a>
+        <a href="https://www.credly.com/badges/2c03b8ad-089f-4caf-9195-9a394efb8e05/public_url" target="_blank" rel="noopener noreferrer" class="text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)] hover:text-[var(--fg)] hover:bg-[var(--hover)] transition-colors">Python (Credly)</a>
+        <a href="https://drive.google.com/file/d/1Lu_NqJenBXql4veO13FrkXXQwzOuffNq/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)] hover:text-[var(--fg)] hover:bg-[var(--hover)] transition-colors">Frontend Web (IBM)</a>
+        <a href="https://drive.google.com/file/d/1NEkFkCEh2G4li1E8kqtqb88CG-2kYKvv/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)] hover:text-[var(--fg)] hover:bg-[var(--hover)] transition-colors">SQL (IBM)</a>
+        <a href="https://drive.google.com/file/d/1RzSzNBjkwCuxVq_MA6H1fRW3LC3lZpmC/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)] hover:text-[var(--fg)] hover:bg-[var(--hover)] transition-colors">ServiceNow</a>
+        <a href="https://verify.onwingspan.com" target="_blank" rel="noopener noreferrer" class="text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)] hover:text-[var(--fg)] hover:bg-[var(--hover)] transition-colors">Angular</a>
+        <a href="https://verify.onwingspan.com" target="_blank" rel="noopener noreferrer" class="text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)] hover:text-[var(--fg)] hover:bg-[var(--hover)] transition-colors">Azure Services Basics</a>
+        <span class="text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)]">Oracle Cloud GenAI Professional</span>
+        <a href="https://verify.onwingspan.com" target="_blank" rel="noopener noreferrer" class="text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)] hover:text-[var(--fg)] hover:bg-[var(--hover)] transition-colors">DBMS Part-1</a>
+        <a href="https://verify.onwingspan.com" target="_blank" rel="noopener noreferrer" class="text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)] hover:text-[var(--fg)] hover:bg-[var(--hover)] transition-colors">DSA using Java</a>
+        <span class="text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)]">HTML (Cisco)</span>
+        <span class="text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)]">Oracle Agentic AI Foundations</span>
+        <span class="text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)]">Python Essentials 1</span>
+      </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section id="skills" class="px-6 sm:px-8 py-8 border-b border-dashed border-[var(--line)]">
+      <h2 class="font-serif text-2xl text-[var(--fg)] mb-4">Tech Stack</h2>
+      <div class="flex flex-wrap gap-2 mb-6" id="skill-filters">
+        <button data-skill="all" class="skill-filter active px-3 py-1.5 text-[12px] mono border border-dashed border-[var(--line)] rounded-md text-[var(--muted)] hover:text-[var(--fg)] transition-colors">All</button>
+        <button data-skill="lang" class="skill-filter px-3 py-1.5 text-[12px] mono border border-dashed border-[var(--line)] rounded-md text-[var(--muted)] hover:text-[var(--fg)] transition-colors">Languages</button>
+        <button data-skill="fe" class="skill-filter px-3 py-1.5 text-[12px] mono border border-dashed border-[var(--line)] rounded-md text-[var(--muted)] hover:text-[var(--fg)] transition-colors">Frontend</button>
+        <button data-skill="be" class="skill-filter px-3 py-1.5 text-[12px] mono border border-dashed border-[var(--line)] rounded-md text-[var(--muted)] hover:text-[var(--fg)] transition-colors">Backend</button>
+        <button data-skill="db" class="skill-filter px-3 py-1.5 text-[12px] mono border border-dashed border-[var(--line)] rounded-md text-[var(--muted)] hover:text-[var(--fg)] transition-colors">Databases</button>
+        <button data-skill="devops" class="skill-filter px-3 py-1.5 text-[12px] mono border border-dashed border-[var(--line)] rounded-md text-[var(--muted)] hover:text-[var(--fg)] transition-colors">DevOps & Cloud</button>
+      </div>
+      <div class="flex flex-wrap gap-2" id="skills-list">
+        <span data-cat="lang" class="skill-pill text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)]">Python</span>
+        <span data-cat="lang" class="skill-pill text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)]">JavaScript</span>
+        <span data-cat="lang" class="skill-pill text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)]">TypeScript</span>
+        <span data-cat="lang" class="skill-pill text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)]">Java</span>
+        <span data-cat="lang" class="skill-pill text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)]">SQL</span>
+        <span data-cat="fe" class="skill-pill text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)]">React.js</span>
+        <span data-cat="fe" class="skill-pill text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)]">Three.js</span>
+        <span data-cat="fe" class="skill-pill text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)]">Tailwind CSS</span>
+        <span data-cat="fe" class="skill-pill text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)]">Mapbox & Spatial GIS</span>
+        <span data-cat="fe" class="skill-pill text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)]">Canvas & WebGL</span>
+        <span data-cat="be" class="skill-pill text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)]">Node.js & Express</span>
+        <span data-cat="be" class="skill-pill text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)]">Low-Latency Matching FIFO</span>
+        <span data-cat="be" class="skill-pill text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)]">Market Microstructure (OFI)</span>
+        <span data-cat="be" class="skill-pill text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)]">RESTful APIs</span>
+        <span data-cat="db" class="skill-pill text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)]">MongoDB</span>
+        <span data-cat="devops" class="skill-pill text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)]">GitHub Actions CI/CD</span>
+        <span data-cat="devops" class="skill-pill text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)]">Git Version Control</span>
+        <span data-cat="devops" class="skill-pill text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)]">JIRA & Agile</span>
+        <span data-cat="devops" class="skill-pill text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)]">MS Power Automate</span>
+        <span data-cat="devops" class="skill-pill text-[12px] mono px-2.5 py-1 border border-dashed border-[var(--line)] rounded-md text-[var(--muted)]">Vite Tooling</span>
+      </div>
+    </section>
+
+    <!-- All Projects -->
+    <section class="px-6 sm:px-8 py-8 border-b border-dashed border-[var(--line)]">
+      <h2 class="font-serif text-2xl text-[var(--fg)] mb-2">All Projects</h2>
+      <p class="text-[13px] text-[var(--muted)] mb-6">Everything on my GitHub — ML, full-stack, data, and learning projects.</p>
+      <div class="grid sm:grid-cols-2 gap-3">
+
+        <a href="https://github.com/meghanadhjanga-245/MaliciousQueryProject" target="_blank" rel="noopener noreferrer" class="border border-dashed border-[var(--line)] rounded-lg p-4 card-hover block">
+          <div class="flex items-baseline justify-between gap-2">
+            <h3 class="font-serif text-base text-[var(--fg)]">MaliciousQueryProject</h3>
+            <span class="text-[10px] mono text-[var(--soft)]">Python</span>
+          </div>
+          <p class="mt-1.5 text-[12px] leading-relaxed text-[var(--muted)]">Multi-representation ML detector for malicious SQL queries with explainable AI (SHAP). 8,063 features, 100% F1.</p>
+        </a>
+
+        <a href="https://github.com/meghanadhjanga-245/order-to-audit-internship" target="_blank" rel="noopener noreferrer" class="border border-dashed border-[var(--line)] rounded-lg p-4 card-hover block">
+          <div class="flex items-baseline justify-between gap-2">
+            <h3 class="font-serif text-base text-[var(--fg)]">order-to-audit-internship</h3>
+            <span class="text-[10px] mono text-[var(--soft)]">Python</span>
+          </div>
+          <p class="mt-1.5 text-[12px] leading-relaxed text-[var(--muted)]">Order-to-Audit System prototype (Winter 2026 internship, NIT Tiruchirappalli). 20/20 benchmark figures match.</p>
+        </a>
+
+        <a href="https://github.com/meghanadhjanga-245/AutoPriceIQ" target="_blank" rel="noopener noreferrer" class="border border-dashed border-[var(--line)] rounded-lg p-4 card-hover block">
+          <div class="flex items-baseline justify-between gap-2">
+            <h3 class="font-serif text-base text-[var(--fg)]">AutoPriceIQ</h3>
+            <span class="text-[10px] mono text-[var(--soft)]">Python</span>
+          </div>
+          <p class="mt-1.5 text-[12px] leading-relaxed text-[var(--muted)]">Car price prediction with XGBoost, SHAP explainability, and 2026 EV incentive modelling.</p>
+        </a>
+
+        <a href="https://github.com/meghanadhjanga-245/emi-app" target="_blank" rel="noopener noreferrer" class="border border-dashed border-[var(--line)] rounded-lg p-4 card-hover block">
+          <div class="flex items-baseline justify-between gap-2">
+            <h3 class="font-serif text-base text-[var(--fg)]">emi-app</h3>
+            <span class="text-[10px] mono text-[var(--soft)]">TypeScript</span>
+          </div>
+          <p class="mt-1.5 text-[12px] leading-relaxed text-[var(--muted)]">SmartPhones EMI Web App (Next.js, Prisma, SQLite) with mutual-fund-backed EMI plans.</p>
+        </a>
+
+        <a href="https://github.com/meghanadhjanga-245/FinFlow" target="_blank" rel="noopener noreferrer" class="border border-dashed border-[var(--line)] rounded-lg p-4 card-hover block">
+          <div class="flex items-baseline justify-between gap-2">
+            <h3 class="font-serif text-base text-[var(--fg)]">FinFlow</h3>
+            <span class="text-[10px] mono text-[var(--soft)]">JavaScript</span>
+          </div>
+          <p class="mt-1.5 text-[12px] leading-relaxed text-[var(--muted)]">Luxury finance dashboard — Bloomberg-meets-Apple dark theme, glassmorphism, CSV export.</p>
+        </a>
+
+        <a href="https://github.com/meghanadhjanga-245/Interactive-Infographic-Creator" target="_blank" rel="noopener noreferrer" class="border border-dashed border-[var(--line)] rounded-lg p-4 card-hover block">
+          <div class="flex items-baseline justify-between gap-2">
+            <h3 class="font-serif text-base text-[var(--fg)]">Interactive-Infographic-Creator</h3>
+            <span class="text-[10px] mono text-[var(--soft)]">JavaScript</span>
+          </div>
+          <p class="mt-1.5 text-[12px] leading-relaxed text-[var(--muted)]">Zero-dependency client-side infographic creator with drag-and-drop and export.</p>
+        </a>
+
+        <a href="https://github.com/meghanadhjanga-245/Interactive-Recipe-Finder" target="_blank" rel="noopener noreferrer" class="border border-dashed border-[var(--line)] rounded-lg p-4 card-hover block">
+          <div class="flex items-baseline justify-between gap-2">
+            <h3 class="font-serif text-base text-[var(--fg)]">Interactive-Recipe-Finder</h3>
+            <span class="text-[10px] mono text-[var(--soft)]">HTML</span>
+          </div>
+          <p class="mt-1.5 text-[12px] leading-relaxed text-[var(--muted)]">Interactive recipe finder web app.</p>
+        </a>
+
+        <a href="https://github.com/meghanadhjanga-245/Super_Store-_Sales_Analysis_Dashboard" target="_blank" rel="noopener noreferrer" class="border border-dashed border-[var(--line)] rounded-lg p-4 card-hover block">
+          <div class="flex items-baseline justify-between gap-2">
+            <h3 class="font-serif text-base text-[var(--fg)]">Super_Store Sales Analysis</h3>
+            <span class="text-[10px] mono text-[var(--soft)]">Power BI</span>
+          </div>
+          <p class="mt-1.5 text-[12px] leading-relaxed text-[var(--muted)]">Power BI dashboard for SuperStore sales performance across regions, categories, cities.</p>
+        </a>
+
+        <a href="https://github.com/meghanadhjanga-245/75DaysLeetcodeChallenege" target="_blank" rel="noopener noreferrer" class="border border-dashed border-[var(--line)] rounded-lg p-4 card-hover block">
+          <div class="flex items-baseline justify-between gap-2">
+            <h3 class="font-serif text-base text-[var(--fg)]">75DaysLeetcodeChallenge</h3>
+            <span class="text-[10px] mono text-[var(--soft)]">Java</span>
+          </div>
+          <p class="mt-1.5 text-[12px] leading-relaxed text-[var(--muted)]">75-day LeetCode challenge collection for coding interview prep.</p>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- GitHub Activity -->
+    <section class="px-6 sm:px-8 py-8 border-b border-dashed border-[var(--line)]">
+      <h2 class="font-serif text-2xl text-[var(--fg)] mb-4">GitHub Activity</h2>
+      <div class="border border-dashed border-[var(--line)] rounded-lg p-4 overflow-x-auto">
+        <img src="https://ghchart.rshah.org/10b981/meghanadhjanga-245" alt="GitHub contribution chart" class="w-full min-w-[600px]" loading="lazy" />
+      </div>
+      <a href="https://github.com/meghanadhjanga-245" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-[12px] mono text-[var(--muted)] hover:text-[var(--fg)]">@meghanadhjanga-245 ↗</a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="px-6 sm:px-8 py-12 text-center">
+      <h2 class="font-serif text-3xl text-[var(--fg)]">Scrolled Too Far</h2>
+      <p class="mt-3 text-[14px] text-[var(--muted)] max-w-[480px] mx-auto">If you've read this far, you might be interested in collaborating or building something great.</p>
+      <div class="mt-6 flex items-center justify-center gap-3">
+        <a href="mailto:meghanadhjanga02@gmail.com?subject=Let%27s%20collaborate" onclick="openEmail()" class="px-4 py-2 border border-dashed border-[var(--line)] rounded-md text-[13px] text-[var(--fg)] hover:bg-[var(--hover)] transition-colors">Let's Talk ↗</a>
+      </div>
+      <blockquote class="mt-10">
+        <p class="font-serif italic text-[18px] text-[var(--muted)]">"Simplicity is the soul of efficiency."</p>
+        <cite class="mt-2 block text-[11px] mono text-[var(--soft)] not-italic">— AUSTIN FREEMAN</cite>
+      </blockquote>
+      <p class="mt-8 text-[11px] mono text-[var(--soft)]">© <span id="current-year">2026</span> Janga Meghanadh. Designed & built with care.</p>
+    </footer>
+
+  </main>
+
+  <!-- Volleyball Game Modal -->
+  <div id="volleyball-modal" class="hidden fixed inset-0 z-[60] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-[var(--bg)] border border-dashed border-[var(--line)] rounded-lg w-full max-w-[720px] p-4">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="font-serif text-xl text-[var(--fg)]">Volleyball vs CPU</h3>
+        <button id="volleyball-close" type="button" class="text-[var(--muted)] hover:text-[var(--fg)] text-xl leading-none">×</button>
+      </div>
+      <p class="text-[12px] mono text-[var(--soft)] mb-3">Controls: A/D or ←/→ move · W/↑ jump · Space serve · P pause. First to 7 wins.</p>
+      <canvas id="volleyball-canvas" width="720" height="380" class="w-full border border-dashed border-[var(--line)] rounded-md bg-[var(--hover)]"></canvas>
+      <div class="mt-3 flex items-center justify-between text-[13px] mono">
+        <span class="text-[var(--fg)]">You: <span id="vb-score-you">0</span></span>
+        <span class="text-[var(--muted)]" id="vb-status">Press Space to serve</span>
+        <span class="text-[var(--fg)]">CPU: <span id="vb-score-cpu">0</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SVG sprite -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <symbol id="icon-github" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></symbol>
+    <symbol id="icon-linkedin" viewBox="0 0 24 24"><path fill="#0077b5" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></symbol>
+  </svg>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
